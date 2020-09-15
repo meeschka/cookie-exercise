@@ -1,24 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 
 function App() {
+  const [user, setUser] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const uuid = uuidv4()
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 1);
+    document.cookie = `uuid=${uuid}; expires=${expires}`
+    console.log(document.cookie)
+  }
+  const logout = () => {
+    document.cookie=`uuid=`
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={onSubmit}>
+        <input type="text" id="user" placeholder='Username' name="Username" value={user} onChange={(e) => setUser(e.target.value)} /><br/>
+        <input type="password" id="password" placeholder='Password' name="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
+        <input type="submit" value="Submit" />
+      </form>
+      <button>Logout</button>
     </div>
   );
 }
