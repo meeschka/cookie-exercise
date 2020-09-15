@@ -11,10 +11,12 @@ function App() {
     const expires = new Date();
     expires.setDate(expires.getDate() + 1);
     document.cookie = `uuid=${uuid}; expires=${expires}`
-    console.log(document.cookie)
+    setUser('')
+    setPassword('')
   }
   const logout = () => {
-    document.cookie=`uuid=`
+    console.log('logged out')
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   }
   return (
     <div className="App">
@@ -23,7 +25,7 @@ function App() {
         <input type="password" id="password" placeholder='Password' name="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
         <input type="submit" value="Submit" />
       </form>
-      <button>Logout</button>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
